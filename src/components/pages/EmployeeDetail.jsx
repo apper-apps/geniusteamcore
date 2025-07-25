@@ -12,6 +12,229 @@ import employeeService from "@/services/api/employeeService";
 import attendanceService from "@/services/api/attendanceService";
 import { toast } from "react-toastify";
 
+const OnboardingChecklist = ({ employee }) => {
+  const [checklist, setChecklist] = useState({
+    accountSetup: {
+      title: "Account Setup",
+      tasks: [
+        { id: "email", label: "Set up company email account", completed: false },
+        { id: "password", label: "Create secure password", completed: false },
+        { id: "systems", label: "Grant access to company systems", completed: false },
+        { id: "badges", label: "Issue security badges/keycards", completed: false }
+      ]
+    },
+    documentation: {
+      title: "Documentation",
+      tasks: [
+        { id: "contract", label: "Employment contract signed", completed: false },
+        { id: "handbook", label: "Employee handbook reviewed", completed: false },
+        { id: "policies", label: "Company policies acknowledged", completed: false },
+        { id: "emergency", label: "Emergency contact information collected", completed: false },
+        { id: "tax", label: "Tax forms completed", completed: false }
+      ]
+    },
+    equipment: {
+      title: "Equipment & Tools",
+      tasks: [
+        { id: "laptop", label: "Laptop/computer assigned", completed: false },
+        { id: "software", label: "Required software installed", completed: false },
+        { id: "phone", label: "Company phone/extension set up", completed: false },
+        { id: "supplies", label: "Office supplies provided", completed: false }
+      ]
+    },
+    training: {
+      title: "Training & Orientation",
+      tasks: [
+        { id: "orientation", label: "Company orientation completed", completed: false },
+        { id: "safety", label: "Safety training completed", completed: false },
+        { id: "department", label: "Department-specific training", completed: false },
+        { id: "mentor", label: "Mentor/buddy assigned", completed: false }
+      ]
+    },
+    workspace: {
+      title: "Workspace Setup",
+      tasks: [
+        { id: "desk", label: "Desk/workspace assigned", completed: false },
+        { id: "parking", label: "Parking space allocated", completed: false },
+        { id: "tour", label: "Office tour completed", completed: false },
+        { id: "introductions", label: "Team introductions completed", completed: false }
+      ]
+    }
+  });
+
+  const handleTaskToggle = (categoryId, taskId) => {
+    setChecklist(prev => ({
+      ...prev,
+      [categoryId]: {
+        ...prev[categoryId],
+        tasks: prev[categoryId].tasks.map(task =>
+          task.id === taskId ? { ...task, completed: !task.completed } : task
+        )
+      }
+    }));
+
+    const task = checklist[categoryId].tasks.find(t => t.id === taskId);
+    if (!task.completed) {
+      toast.success(`Task completed: ${task.label}`);
+    } else {
+      toast.info(`Task unmarked: ${task.label}`);
+    }
+  };
+
+  const getTotalTasks = () => {
+    return Object.values(checklist).reduce((total, category) => total + category.tasks.length, 0);
+  };
+
+  const getCompletedTasks = () => {
+    return Object.values(checklist).reduce(
+      (total, category) => total + category.tasks.filter(task => task.completed).length,
+      0
+    );
+  };
+
+  const getProgressPercentage = () => {
+    const total = getTotalTasks();
+    const completed = getCompletedTasks();
+    return total > 0 ? Math.round((completed / total) * 100) : 0;
+  };
+
+  const getCategoryProgress = (category) => {
+    const total = category.tasks.length;
+    const completed = category.tasks.filter(task => task.completed).length;
+    return { completed, total, percentage: Math.round((completed / total) * 100) };
+  };
+
+  const totalTasks = getTotalTasks();
+  const completedTasks = getCompletedTasks();
+  const progressPercentage = getProgressPercentage();
+
+  return (
+    <div className="space-y-6">
+      {/* Progress Overview */}
+      <Card className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-display font-semibold text-gray-900">
+            Onboarding Progress
+          </h3>
+          <div className="text-sm text-gray-600">
+            {completedTasks} of {totalTasks} tasks completed
+          </div>
+        </div>
+        
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-2xl font-display font-bold text-gray-900">
+              {progressPercentage}%
+            </span>
+            <div className="flex items-center space-x-2">
+              <ApperIcon 
+                name={progressPercentage === 100 ? "CheckCircle" : "Clock"} 
+                className={`h-5 w-5 ${progressPercentage === 100 ? "text-success-500" : "text-warning-500"}`} 
+              />
+              <span className={`text-sm font-medium ${progressPercentage === 100 ? "text-success-600" : "text-warning-600"}`}>
+                {progressPercentage === 100 ? "Complete" : "In Progress"}
+              </span>
+            </div>
+          </div>
+          
+          <div className="w-full bg-gray-200 rounded-full h-3">
+            <div 
+              className="bg-gradient-to-r from-primary-500 to-primary-600 h-3 rounded-full transition-all duration-300"
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Checklist Categories */}
+      <div className="space-y-4">
+        {Object.entries(checklist).map(([categoryId, category]) => {
+          const progress = getCategoryProgress(category);
+          return (
+            <Card key={categoryId} className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-lg font-display font-medium text-gray-900">
+                  {category.title}
+                </h4>
+                <div className="flex items-center space-x-3">
+                  <span className="text-sm text-gray-600">
+                    {progress.completed}/{progress.total}
+                  </span>
+                  <div className="w-20 bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-primary-500 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${progress.percentage}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium text-primary-600">
+                    {progress.percentage}%
+                  </span>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                {category.tasks.map((task) => (
+                  <div key={task.id} className="flex items-center space-x-3 group">
+                    <button
+                      onClick={() => handleTaskToggle(categoryId, task.id)}
+                      className={`
+                        flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200
+                        ${task.completed
+                          ? "bg-primary-500 border-primary-500 hover:bg-primary-600"
+                          : "border-gray-300 hover:border-primary-500 group-hover:border-primary-400"
+                        }
+                      `}
+                    >
+                      {task.completed && (
+                        <ApperIcon name="Check" className="h-3 w-3 text-white" />
+                      )}
+                    </button>
+                    <label 
+                      className={`
+                        flex-1 text-sm cursor-pointer transition-all duration-200
+                        ${task.completed 
+                          ? "text-gray-500 line-through" 
+                          : "text-gray-900 group-hover:text-primary-600"
+                        }
+                      `}
+                      onClick={() => handleTaskToggle(categoryId, task.id)}
+                    >
+                      {task.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+
+      {/* Action Buttons */}
+      {progressPercentage === 100 && (
+        <Card className="p-6 bg-success-50 border-success-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <ApperIcon name="CheckCircle" className="h-6 w-6 text-success-500" />
+              <div>
+                <h4 className="font-medium text-success-900">Onboarding Complete!</h4>
+                <p className="text-sm text-success-700">
+                  {employee.firstName} {employee.lastName} has completed all onboarding tasks.
+                </p>
+              </div>
+            </div>
+            <Button 
+              className="bg-success-500 hover:bg-success-600 text-white"
+              onClick={() => toast.success("Onboarding completion recorded!")}
+            >
+              Mark as Complete
+            </Button>
+          </div>
+        </Card>
+      )}
+    </div>
+  );
+};
+
 const EmployeeDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -73,8 +296,9 @@ const EmployeeDetail = () => {
     return <Error message="Employee not found" />;
   }
 
-  const tabs = [
+const tabs = [
     { id: "info", label: "Information", icon: "User" },
+    { id: "onboarding", label: "Onboarding", icon: "CheckSquare" },
     { id: "attendance", label: "Attendance", icon: "Clock" },
     { id: "documents", label: "Documents", icon: "FileText" }
   ];
@@ -218,6 +442,10 @@ const EmployeeDetail = () => {
             </div>
           </Card>
         </div>
+)}
+
+      {activeTab === "onboarding" && (
+        <OnboardingChecklist employee={employee} />
       )}
 
       {activeTab === "attendance" && (
