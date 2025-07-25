@@ -32,12 +32,76 @@ class AttendanceService {
     await this.delay();
     return this.attendance.filter(att => att.date === date);
   }
-
-  async getByDateRange(startDate, endDate) {
+async getByDateRange(startDate, endDate) {
     await this.delay();
     return this.attendance.filter(att => 
       att.date >= startDate && att.date <= endDate
     );
+  }
+
+  async checkIn(employeeId, location = null) {
+    await this.delay();
+    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    
+    // Check if already checked in today
+    const existingRecord = this.attendance.find(att => 
+      att.employeeId === employeeId && att.date === today
+    );
+    
+    if (existingRecord && existingRecord.checkInTime && !existingRecord.checkOutTime) {
+      throw new Error("Already checked in today");
+    }
+    
+    const checkInData = {
+      Id: this.attendance.length + 1,
+      employeeId,
+      date: today,
+      checkInTime: now.toTimeString().split(' ')[0],
+      checkInLocation: location,
+      status: "Present"
+    };
+    
+    // Remove any existing incomplete record for today
+    this.attendance = this.attendance.filter(att => 
+      !(att.employeeId === employeeId && att.date === today)
+    );
+    
+    this.attendance.push(checkInData);
+    return checkInData;
+  }
+
+  async checkOut(employeeId, location = null) {
+    await this.delay();
+    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    
+    // Find today's check-in record
+    const recordIndex = this.attendance.findIndex(att => 
+      att.employeeId === employeeId && 
+      att.date === today && 
+      att.checkInTime && 
+      !att.checkOutTime
+    );
+    
+    if (recordIndex === -1) {
+      throw new Error("No active check-in found for today");
+    }
+    
+    // Calculate work hours
+    const checkInTime = new Date(`${today}T${this.attendance[recordIndex].checkInTime}`);
+    const checkOutTime = now;
+    const hoursWorked = Math.round((checkOutTime - checkInTime) / (1000 * 60 * 60) * 100) / 100;
+    
+    // Update the record
+    this.attendance[recordIndex] = {
+      ...this.attendance[recordIndex],
+      checkOutTime: now.toTimeString().split(' ')[0],
+      checkOutLocation: location,
+      hoursWorked
+    };
+    
+    return this.attendance[recordIndex];
   }
 
   async create(attendanceData) {

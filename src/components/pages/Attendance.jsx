@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AttendanceCalendar from "@/components/organisms/AttendanceCalendar";
+import TimeClockWidget from "@/components/organisms/TimeClockWidget";
 import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
@@ -68,7 +69,7 @@ const Attendance = () => {
   const stats = getAttendanceStats();
 
   return (
-    <div className="space-y-6">
+<div className="space-y-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -82,6 +83,9 @@ const Attendance = () => {
           Export Report
         </Button>
       </div>
+
+      {/* Time Clock Widget */}
+      <TimeClockWidget onAttendanceUpdate={loadData} />
 
       {/* Today's Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
