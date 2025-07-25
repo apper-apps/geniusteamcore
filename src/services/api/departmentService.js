@@ -2,12 +2,22 @@ import { toast } from 'react-toastify';
 
 class DepartmentService {
   constructor() {
-    const { ApperClient } = window.ApperSDK;
-    this.apperClient = new ApperClient({
-      apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
-      apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-    });
-    this.tableName = 'department';
+this.tableName = 'department';
+    this.apperClient = null;
+  }
+
+  getClient() {
+    if (!this.apperClient) {
+      if (!window.ApperSDK) {
+        throw new Error('ApperSDK not loaded. Please ensure the SDK script is loaded before using services.');
+      }
+      const { ApperClient } = window.ApperSDK;
+      this.apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+    }
+    return this.apperClient;
   }
 
   async getAll() {
