@@ -7,9 +7,9 @@ import Error from "@/components/ui/Error";
 import ApperIcon from "@/components/ApperIcon";
 import employeeService from "@/services/api/employeeService";
 import attendanceService from "@/services/api/attendanceService";
-import departmentService from "@/services/api/departmentService";
-import { endOfMonth, format, startOfMonth, subDays } from "date-fns";
-import toast from "react-hot-toast";
+import departmentService from '@/services/api/departmentService'
+import { endOfMonth, format, startOfMonth, subDays } from 'date-fns'
+import { toast } from 'react-toastify'
 
 const Reports = () => {
   const [employees, setEmployees] = useState([]);
