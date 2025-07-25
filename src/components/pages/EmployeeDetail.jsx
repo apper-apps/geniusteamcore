@@ -304,17 +304,9 @@ const tabs = [
   ];
 
   return (
-    <div className="space-y-6">
+<div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/employees")}
-          className="mb-4"
-        >
-          <ApperIcon name="ArrowLeft" className="h-4 w-4 mr-2" />
-          Back to Employees
-        </Button>
+      <div className="flex items-center justify-end">
         <div className="flex space-x-3">
           <Button variant="outline" onClick={handleEdit}>
             <ApperIcon name="Edit" className="h-4 w-4 mr-2" />
