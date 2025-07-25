@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import DashboardStats from "@/components/organisms/DashboardStats";
 import Card from "@/components/atoms/Card";
 import ApperIcon from "@/components/ApperIcon";
@@ -8,12 +9,12 @@ import employeeService from "@/services/api/employeeService";
 import attendanceService from "@/services/api/attendanceService";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const loadData = async () => {
     try {
       setLoading(true);
@@ -50,6 +51,25 @@ const Dashboard = () => {
       setError(err.message || "Failed to load dashboard data");
     } finally {
       setLoading(false);
+    }
+  };
+
+const handleQuickAction = (actionType) => {
+    switch (actionType) {
+      case 'addEmployee':
+        navigate('/employees/add');
+        break;
+      case 'markAttendance':
+        navigate('/attendance');
+        break;
+      case 'generateReport':
+        navigate('/reports');
+        break;
+      case 'manageDepartments':
+        navigate('/departments');
+        break;
+      default:
+        break;
     }
   };
 
@@ -165,15 +185,16 @@ const Dashboard = () => {
         <h3 className="text-lg font-display font-semibold text-gray-900 mb-4">
           Quick Actions
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { icon: "UserPlus", label: "Add Employee", color: "from-primary-500 to-secondary-500" },
-            { icon: "Clock", label: "Mark Attendance", color: "from-success-500 to-success-600" },
-            { icon: "FileText", label: "Generate Report", color: "from-warning-500 to-warning-600" },
-            { icon: "Building2", label: "Manage Departments", color: "from-secondary-500 to-primary-500" }
+            { icon: "UserPlus", label: "Add Employee", color: "from-primary-500 to-secondary-500", action: "addEmployee" },
+            { icon: "Clock", label: "Mark Attendance", color: "from-success-500 to-success-600", action: "markAttendance" },
+            { icon: "FileText", label: "Generate Report", color: "from-warning-500 to-warning-600", action: "generateReport" },
+            { icon: "Building2", label: "Manage Departments", color: "from-secondary-500 to-primary-500", action: "manageDepartments" }
           ].map((action, index) => (
             <div 
               key={index}
+              onClick={() => handleQuickAction(action.action)}
               className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:bg-gradient-to-br hover:from-gray-50 hover:to-gray-100 cursor-pointer transition-all duration-200 hover:shadow-md group"
             >
               <div className={`w-12 h-12 bg-gradient-to-br ${action.color} rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-200`}>
