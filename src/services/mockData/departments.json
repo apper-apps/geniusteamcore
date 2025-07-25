@@ -1,0 +1,44 @@
+[
+  {
+    "Id": 1,
+    "name": "Engineering",
+    "managerId": 1,
+    "employeeCount": 4
+  },
+  {
+    "Id": 2,
+    "name": "Product",
+    "managerId": 2,
+    "employeeCount": 1
+  },
+  {
+    "Id": 3,
+    "name": "Design",
+    "managerId": 3,
+    "employeeCount": 1
+  },
+  {
+    "Id": 4,
+    "name": "Marketing",
+    "managerId": 4,
+    "employeeCount": 2
+  },
+  {
+    "Id": 5,
+    "name": "Human Resources",
+    "managerId": 5,
+    "employeeCount": 1
+  },
+  {
+    "Id": 6,
+    "name": "Finance",
+    "managerId": 6,
+    "employeeCount": 1
+  },
+  {
+    "Id": 7,
+    "name": "Sales",
+    "managerId": null,
+    "employeeCount": 0
+  }
+]

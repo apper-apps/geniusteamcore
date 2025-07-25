@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "email": "sarah.johnson@company.com",
+    "phone": "(555) 123-4567",
+    "role": "Software Engineer",
+    "department": "Engineering",
+    "startDate": "2022-03-15",
+    "status": "Active",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 2,
+    "firstName": "Michael",
+    "lastName": "Chen",
+    "email": "michael.chen@company.com",
+    "phone": "(555) 234-5678",
+    "role": "Product Manager",
+    "department": "Product",
+    "startDate": "2021-08-20",
+    "status": "Active",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 3,
+    "firstName": "Emily",
+    "lastName": "Rodriguez",
+    "email": "emily.rodriguez@company.com",
+    "phone": "(555) 345-6789",
+    "role": "UX Designer",
+    "department": "Design",
+    "startDate": "2022-01-10",
+    "status": "On Leave",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 4,
+    "firstName": "David",
+    "lastName": "Thompson",
+    "email": "david.thompson@company.com",
+    "phone": "(555) 456-7890",
+    "role": "Marketing Manager",
+    "department": "Marketing",
+    "startDate": "2021-11-05",
+    "status": "Active",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 5,
+    "firstName": "Jessica",
+    "lastName": "Williams",
+    "email": "jessica.williams@company.com",
+    "phone": "(555) 567-8901",
+    "role": "HR Specialist",
+    "department": "Human Resources",
+    "startDate": "2022-02-28",
+    "status": "Active",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 6,
+    "firstName": "Robert",
+    "lastName": "Davis",
+    "email": "robert.davis@company.com",
+    "phone": "(555) 678-9012",
+    "role": "Financial Analyst",
+    "department": "Finance",
+    "startDate": "2021-09-12",
+    "status": "Active",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 7,
+    "firstName": "Amanda",
+    "lastName": "Miller",
+    "email": "amanda.miller@company.com",
+    "phone": "(555) 789-0123",
+    "role": "Sales Representative",
+    "department": "Sales",
+    "startDate": "2022-05-03",
+    "status": "Terminated",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 8,
+    "firstName": "James",
+    "lastName": "Wilson",
+    "email": "james.wilson@company.com",
+    "phone": "(555) 890-1234",
+    "role": "DevOps Engineer",
+    "department": "Engineering",
+    "startDate": "2021-12-18",
+    "status": "Active",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 9,
+    "firstName": "Lisa",
+    "lastName": "Anderson",
+    "email": "lisa.anderson@company.com",
+    "phone": "(555) 901-2345",
+    "role": "Content Specialist",
+    "department": "Marketing",
+    "startDate": "2022-04-07",
+    "status": "Active",
+    "profilePhoto": ""
+  },
+  {
+    "Id": 10,
+    "firstName": "Christopher",
+    "lastName": "Taylor",
+    "email": "christopher.taylor@company.com",
+    "phone": "(555) 012-3456",
+    "role": "Quality Assurance",
+    "department": "Engineering",
+    "startDate": "2021-10-25",
+    "status": "On Leave",
+    "profilePhoto": ""
+  }
+]
